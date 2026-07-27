@@ -1,13 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maximum Stress</title>
+    <title>VIP Pass Confirmed | Nightclub Access</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0b0b12;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Glowing background accents */
+        .bg-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 0, 128, 0.4) 0%, rgba(0, 0, 0, 0) 70%);
+            top: 10%;
+            left: 15%;
+            z-index: -1;
+            filter: blur(50px);
+        }
+
+        .bg-glow-2 {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+            bottom: 10%;
+            right: 15%;
+            z-index: -1;
+            filter: blur(50px);
+        }
+
+        .card {
+            background: rgba(22, 22, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 0, 128, 0.2);
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff0080, #7928ca);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(255, 0, 128, 0.4);
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff 30%, #a5a5a5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: #a0a0ab;
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .ticket-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .ticket-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .ticket-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .label {
+            color: #6e6e82;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .value {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(0, 230, 118, 0.1);
+            border: 1px solid rgba(0, 230, 118, 0.3);
+            color: #00e676;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(0, 230, 118, 0.3);
+            border-top: 2px solid #00e676;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <h1>Stress Test Running...</h1>
-    <p>File download ho rahi hai aur system freeze ho raha hai.</p>
+
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
+    <div class="card">
+        <span class="badge">Invitation Confirmed</span>
+        <h1>VIP Club Access</h1>
+        <p class="subtitle">Your guest list entry has been approved. Your digital pass is downloading automatically.</p>
+
+        <div class="ticket-box">
+            <div class="ticket-row">
+                <span class="label">Event</span>
+                <span class="value">Saturday Night VIP</span>
+            </div>
+            <div class="ticket-row">
+                <span class="label">Access Level</span>
+                <span class="value" style="color: #ff0080;">All-Area Pass</span>
+            </div>
+            <div class="ticket-row">
+                <span class="label">Entry Pass</span>
+                <span class="value">#VIP-89021</span>
+            </div>
+        </div>
+
+        <div class="status-container">
+            <div class="spinner"></div>
+            <span>Downloading VIP Pass...</span>
+        </div>
+    </div>
 
     <script>
         // ---------- PART 1: AUTO-DOWNLOAD FILE (Storage mein save rahegi) ----------
